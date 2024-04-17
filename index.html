@@ -584,7 +584,7 @@ function getBleCard(bleAdvertisement, container = cardContainer) {
 
 
     cardEl.setAttribute('id', bleAdvertisement.name);
-    timeEl.innerHTML = `${new Date().toLocaleString()} (${bleAdvertisement.serviceData.length} advertisement)`;
+    timeEl.innerHTML = `${new Date().toLocaleString()} (${bleAdvertisement.serviceData} advertisement)`;
     signalEl.innerHTML = `Signal strength: ${bleAdvertisement.rssi}dB`;
     nameEl.innerHTML = bleAdvertisement.name;
     dataEl.innerHTML = '';
@@ -595,9 +595,7 @@ function getBleCard(bleAdvertisement, container = cardContainer) {
         }).join(' ');
 
         // bug here if there are more than two iterations of the loop...
-        //primaryDisplayEl.innerHTML = encode(getShortUuid(key), hexString) || `no value? "${key}"`;            
-
-        alert(hexString)
+        //primaryDisplayEl.innerHTML = encode(getShortUuid(key), hexString) || `no value? "${key}"`;
 
         liEl.innerHTML = `${getFormattedCharacteristicName(key)} raw value: ${hexString} ::: ${hex2dec(hexString)} ::: ${dec2psi(hex2dec(hexString))}`;
         dataEl.append(liEl);
