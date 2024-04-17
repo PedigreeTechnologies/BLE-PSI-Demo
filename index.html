@@ -594,15 +594,13 @@ function getBleCard(bleAdvertisement, container = cardContainer) {
         }).join(' ');
 
         // bug here if there are more than two iterations of the loop...
-        //primaryDisplayEl.innerHTML = encode(getShortUuid(key), hexString) || `no value? "${key}"`;
+        primaryDisplayEl.innerHTML = encode(getShortUuid(key), hexString) || `no value? "${key}"`;
 
         liEl.innerHTML = `${getFormattedCharacteristicName(key)} raw value: ${hexString} ::: ${hex2dec(hexString)} ::: ${dec2psi(hex2dec(hexString))}`;
         dataEl.append(liEl);
     });
     return cardEl;
 }
-
-//let foo = getBleCard({ name: 'tacos', rssi: -35 })
 
 
 function clearOutput() {
@@ -654,10 +652,8 @@ function hex2dec(hexValue) {
 
 function dec2psi(decValue) {
     if(decValue > 1000) {
-        /*
         let psi = 0.03 * decValue - 30;
-        return Math.round(psi * 10) / 10;*/
-        return 0.03 * decValue - 30;
+        return Math.round(psi * 10) / 10;
     }
     return 0;
 }
