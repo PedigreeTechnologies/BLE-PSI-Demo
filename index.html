@@ -549,7 +549,7 @@ function encode(key, value) {
 
 
 function getBleCard(bleAdvertisement, container = cardContainer) {
-    let cardEl, timeEl, signalEl, nameEl, dataEl;
+    let cardEl, timeEl, signalEl, nameEl, dataEl, primaryDisplayEl;
     if (!cardList[bleAdvertisement.name]) {
         cardEl = document.createElement('div');
         timeEl = document.createElement('div');
