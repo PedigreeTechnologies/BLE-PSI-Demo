@@ -10,6 +10,16 @@ body, html {
     margin-bottom:  .5rem;
     padding:  .5rem;
 }
+
+.d-none--dev {
+    display: none;
+}
+
+.primary-display {
+    font-size:  6rem;
+    margin: 2rem 4rem;
+    text-align: center;
+}
 </style>
 </head>
 <body>
@@ -521,6 +531,22 @@ let horriblyLongLookupObject = {
 
 const cardList = {};
 
+let encoders = {
+    '2a58': {
+        'unit': 'psi',
+        'encoder': function(raw) {
+            return dec2psi(hex2dec(raw));
+        }
+    }
+}
+
+function encode(key, value) {
+    if (encoders[key] && typeof encoders[key].encoder === 'function') {
+        return `${encoders[key].encoder(value)}${encoders[key].unit}`;
+    }
+    return;
+}
+
 
 function getBleCard(bleAdvertisement, container = cardContainer) {
     let cardEl, timeEl, signalEl, nameEl, dataEl;
@@ -530,16 +556,20 @@ function getBleCard(bleAdvertisement, container = cardContainer) {
         signalEl = document.createElement('div');
         nameEl = document.createElement('div');
         dataEl = document.createElement('ul');
+        primaryDisplayEl = document.createElement('div');
 
         cardEl.setAttribute('class', 'ble-card');
         timeEl.setAttribute('class', 'scan-time');
         nameEl.setAttribute('class', 'scan-device');
         signalEl.setAttribute('class', 'scan-rssi');
         dataEl.setAttribute('class', 'scan-advertisements');
+        dataEl.setAttribute('class', 'd-none--dev');
+        primaryDisplayEl.setAttribute('class', 'primary-display');
 
         cardEl.append(nameEl);
         cardEl.append(timeEl);
         cardEl.append(signalEl);
+        cardEl.append(primaryDisplayEl);
         cardEl.append(dataEl);
         cardList[bleAdvertisement.name] = cardEl;
         cardContainer.append(cardEl);
@@ -549,6 +579,7 @@ function getBleCard(bleAdvertisement, container = cardContainer) {
         nameEl = cardEl.querySelector('.scan-device');
         signalEl = cardEl.querySelector('.scan-rssi');
         dataEl = cardEl.querySelector('.scan-advertisements');
+        primaryDisplayEl = cardEl.querySelector('.primary-display');
     }
 
 
@@ -562,7 +593,11 @@ function getBleCard(bleAdvertisement, container = cardContainer) {
         const hexString = [...new Uint8Array(valueDataView.buffer)].map(b => {
             return b.toString(16).padStart(2, '0');
         }).join(' ');
-        liEl.innerHTML = `${getFormattedCharacteristicName(key)} raw value: ${hexString}, psi: ${dec2psi(hex2dec(hexString))}`;
+
+        // bug here if there are more than two iterations of the loop...
+        primaryDisplayEl.innerHTML = encode(getShortUuid(key), hexString) || `no value? "${key}"`;            
+
+        liEl.innerHTML = `${getFormattedCharacteristicName(key)} raw value: ${hexString}`;
         dataEl.append(liEl);
     });
     return cardEl;
