@@ -597,6 +597,8 @@ function getBleCard(bleAdvertisement, container = cardContainer) {
         // bug here if there are more than two iterations of the loop...
         //primaryDisplayEl.innerHTML = encode(getShortUuid(key), hexString) || `no value? "${key}"`;            
 
+        alert(hexString)
+
         liEl.innerHTML = `${getFormattedCharacteristicName(key)} raw value: ${hexString} ::: ${hex2dec(hexString)} ::: ${dec2psi(hex2dec(hexString))}`;
         dataEl.append(liEl);
     });
