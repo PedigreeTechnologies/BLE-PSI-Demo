@@ -584,7 +584,7 @@ function getBleCard(bleAdvertisement, container = cardContainer) {
 
 
     cardEl.setAttribute('id', bleAdvertisement.name);
-    timeEl.innerHTML = new Date().toLocaleString();
+    timeEl.innerHTML = `${new Date().toLocaleString()} (${bleAdvertisement.serviceData.length} advertisement)`;
     signalEl.innerHTML = `Signal strength: ${bleAdvertisement.rssi}dB`;
     nameEl.innerHTML = bleAdvertisement.name;
     dataEl.innerHTML = '';
