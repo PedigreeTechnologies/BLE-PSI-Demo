@@ -655,7 +655,8 @@ function hex2dec(hexValue) {
 
 function dec2psi(decValue) {
     if(decValue > 1000) {
-        return 0.03 * decValue - 30;
+        let psi = 0.03 * decValue - 30;
+        return Math.round(psi * 10) / 10;
     }
     return 0;
 }
