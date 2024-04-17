@@ -584,7 +584,7 @@ function getBleCard(bleAdvertisement, container = cardContainer) {
 
 
     cardEl.setAttribute('id', bleAdvertisement.name);
-    timeEl.innerHTML = `${new Date().toLocaleString()} (${bleAdvertisement.serviceData} advertisement)`;
+    timeEl.innerHTML = new Date().toLocaleString();
     signalEl.innerHTML = `Signal strength: ${bleAdvertisement.rssi}dB`;
     nameEl.innerHTML = bleAdvertisement.name;
     dataEl.innerHTML = '';
@@ -655,8 +655,10 @@ function hex2dec(hexValue) {
 
 function dec2psi(decValue) {
     if(decValue > 1000) {
+        /*
         let psi = 0.03 * decValue - 30;
-        return Math.round(psi * 10) / 10;
+        return Math.round(psi * 10) / 10;*/
+        return 0.03 * decValue - 30;
     }
     return 0;
 }
