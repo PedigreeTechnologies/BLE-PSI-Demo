@@ -530,6 +530,7 @@ let horriblyLongLookupObject = {
 };
 
 const cardList = {};
+const eventLog = []
 
 let encoders = {
     '2a58': {
@@ -609,14 +610,26 @@ function clearOutput() {
 function showOutput(str, withNewline = true) {
 	let txtEl = document.getElementById('txt-out');
 	let charRet = txtEl.value === '' || !withNewline ? '' : '\n';
-	document.getElementById('txt-out').value = txtEl.value + `${charRet}${str}`;
-	txtEl.scrollTop = txtEl.offsetHeight;
+    document.getElementById('txt-out').value = `${str}${charRet}${txtEl.value}`;
+}
+
+
+function logEvent() {
+    eventLog.push(Date.now())
+    let eventDuration = (eventLog[eventLog.length - 1] - eventLog[eventLog.length - 2]) / 1000;
+    eventDuration = Math.round(eventDuration * 10) / 10;
+
+    let totalDuration = (eventLog[eventLog.length - 1] - eventLog[0]) / 1000;
+    totalDuration = Math.round(totalDuration);
+
+    showOutput(`BLE Event: (${eventDuration}s since last event, ${totalDuration}s since start)`);
 }
 
 
 function onListenButtonClick() {
-	
+  eventLog.push(Date.now())
   navigator.bluetooth.addEventListener("advertisementreceived", (event) => {
+    logEvent();
     getBleCard(event);
   });
 
